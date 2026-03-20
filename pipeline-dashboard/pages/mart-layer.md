@@ -1,43 +1,34 @@
 ---
-title: Pipeline Health Dashboard
+title: Mart Layer
 ---
 
-# Pipeline Health Dashboard
+# Mart Layer
 
-Real-time pipeline monitoring from dbt artifacts and DuckDB.
+Denormalized analytics tables built from staging models.
 
-```sql row_counts
+```sql mart_row_counts
 SELECT 'customers' as model, count(*) as rows FROM jaffle_shop.prod.customers
 UNION ALL SELECT 'orders', count(*) FROM jaffle_shop.prod.orders
 UNION ALL SELECT 'order_items', count(*) FROM jaffle_shop.prod.order_items
 UNION ALL SELECT 'products', count(*) FROM jaffle_shop.prod.products
 UNION ALL SELECT 'locations', count(*) FROM jaffle_shop.prod.locations
 UNION ALL SELECT 'supplies', count(*) FROM jaffle_shop.prod.supplies
+UNION ALL SELECT 'metricflow_time_spine', count(*) FROM jaffle_shop.prod.metricflow_time_spine
 ORDER BY rows DESC
 ```
 
-```sql total_rows
-SELECT sum(rows) as total FROM ${row_counts}
-```
-
-## Overview
-
-<BigValue data={total_rows} value=total title="Total Rows" />
-
-<BigValue data={[{value: row_counts.length}]} value=value title="Models" />
-
-## Row Counts by Model
+## Row Counts
 
 <BarChart
-  data={row_counts}
+  data={mart_row_counts}
   x=model
   y=rows
-  colorPalette={['#6366f1']}
+  colorPalette={['#22c55e']}
 />
 
 ## Model Details
 
-<DataTable data={row_counts}>
+<DataTable data={mart_row_counts} rows=20>
   <Column id=model title="Model" />
   <Column id=rows title="Row Count" fmt="#,##0" />
 </DataTable>
