@@ -22,8 +22,7 @@ pipeline-sources: ## Extract source data from DuckDB for pipeline dashboard
 pipeline-build: ## Build static site for GitHub Pages
 	cd pipeline-dashboard && pnpm run build
 
-pipeline-deploy: ## Deploy static site to GitHub Pages (builds first)
-	cd pipeline-dashboard && pnpm run build
+pipeline-deploy: ## Deploy built static site to GitHub Pages
 	npx gh-pages -d pipeline-dashboard/.evidence/template/build -t --nojekyll
 
 pipeline-dashboard: ## Launch pipeline health dashboard (Evidence.dev, port 3000)
