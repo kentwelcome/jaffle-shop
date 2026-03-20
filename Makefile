@@ -23,7 +23,7 @@ pipeline-build: ## Build static site for GitHub Pages
 	cd pipeline-dashboard && pnpm run build
 
 pipeline-deploy: ## Deploy built static site to GitHub Pages
-	npx gh-pages -d pipeline-dashboard/.evidence/template/build -t --nojekyll
+	cd pipeline-dashboard && npx gh-pages -d .evidence/template/build -t --nojekyll
 
 pipeline-dashboard: ## Launch pipeline health dashboard (Evidence.dev, port 3000)
 	cd pipeline-dashboard && pnpm dev
