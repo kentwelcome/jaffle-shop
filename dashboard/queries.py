@@ -34,7 +34,7 @@ def _build_query(sql: str, start_date: str, end_date: str, locations: list) -> t
     Use $1, $2 for date params. Location filter uses a subquery on unnest($3)."""
     params = [start_date, end_date]
     if locations:
-        sql = sql.replace("{loc_filter}", "AND o.location_id IN (SELECT unnest($3::INTEGER[]))")
+        sql = sql.replace("{loc_filter}", "AND o.location_id IN (SELECT unnest($3::VARCHAR[]))")
         params.append(locations)
     else:
         sql = sql.replace("{loc_filter}", "")
