@@ -7,25 +7,12 @@ title: Run History
 Latest build results from the most recent `dbt build`.
 
 ```sql results
-SELECT
-    r.unique_id,
-    r.status,
-    r.execution_time,
-    CASE
-        WHEN r.unique_id LIKE 'model.%' THEN 'model'
-        WHEN r.unique_id LIKE 'test.%' THEN 'test'
-        WHEN r.unique_id LIKE 'seed.%' THEN 'seed'
-        WHEN r.unique_id LIKE 'unit_test.%' THEN 'unit_test'
-        ELSE 'other'
-    END as node_type,
-    split_part(r.unique_id, '.', 3) as name
-FROM read_json_auto('/Users/kent/Dev/InfuseAI/GitHub/jaffle-shop/target/run_results.json') rr,
-     unnest(rr.results) as r
-ORDER BY r.execution_time DESC
+SELECT unique_id, status, execution_time, rows_affected, node_type, name
+FROM jaffle_shop.run_results
 ```
 
 ```sql status_summary
-SELECT status, count(*) as count FROM ${results} GROUP BY 1
+SELECT status, count(status) as count FROM ${results} GROUP BY 1
 ```
 
 ## Results by Status

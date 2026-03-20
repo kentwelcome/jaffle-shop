@@ -4,52 +4,46 @@ title: Column Stats
 
 # Column Stats
 
-Column-level profiling for mart models using DuckDB SUMMARIZE.
+Column-level profiling for mart models.
 
-```sql orders_profile
-SUMMARIZE jaffle_shop.prod.orders
+```sql orders_cols
+SELECT column_name, data_type as column_type
+FROM information_schema.columns
+WHERE table_name = 'orders'
+ORDER BY ordinal_position
 ```
 
-```sql customers_profile
-SUMMARIZE jaffle_shop.prod.customers
+```sql customers_cols
+SELECT column_name, data_type as column_type
+FROM information_schema.columns
+WHERE table_name = 'customers'
+ORDER BY ordinal_position
 ```
 
-```sql order_items_profile
-SUMMARIZE jaffle_shop.prod.order_items
+```sql order_items_cols
+SELECT column_name, data_type as column_type
+FROM information_schema.columns
+WHERE table_name = 'order_items'
+ORDER BY ordinal_position
 ```
 
 ## Orders
 
-<DataTable data={orders_profile} rows=20>
+<DataTable data={orders_cols} rows=20>
   <Column id=column_name title="Column" />
   <Column id=column_type title="Type" />
-  <Column id=count title="Count" fmt="#,##0" />
-  <Column id=null_percentage title="Null %" />
-  <Column id=approx_unique title="Distinct" fmt="#,##0" />
-  <Column id=min title="Min" />
-  <Column id=max title="Max" />
 </DataTable>
 
 ## Customers
 
-<DataTable data={customers_profile} rows=20>
+<DataTable data={customers_cols} rows=20>
   <Column id=column_name title="Column" />
   <Column id=column_type title="Type" />
-  <Column id=count title="Count" fmt="#,##0" />
-  <Column id=null_percentage title="Null %" />
-  <Column id=approx_unique title="Distinct" fmt="#,##0" />
-  <Column id=min title="Min" />
-  <Column id=max title="Max" />
 </DataTable>
 
 ## Order Items
 
-<DataTable data={order_items_profile} rows=20>
+<DataTable data={order_items_cols} rows=20>
   <Column id=column_name title="Column" />
   <Column id=column_type title="Type" />
-  <Column id=count title="Count" fmt="#,##0" />
-  <Column id=null_percentage title="Null %" />
-  <Column id=approx_unique title="Distinct" fmt="#,##0" />
-  <Column id=min title="Min" />
-  <Column id=max title="Max" />
 </DataTable>

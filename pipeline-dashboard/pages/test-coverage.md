@@ -8,34 +8,32 @@ Test results matrix from the latest `dbt build`.
 
 ```sql tests
 SELECT
-    r.unique_id,
-    r.status,
-    r.execution_time,
-    split_part(r.unique_id, '.', 3) as test_name,
+    unique_id,
+    status,
+    execution_time,
+    name as test_name,
     CASE
-        WHEN r.unique_id LIKE '%not_null%' THEN 'not_null'
-        WHEN r.unique_id LIKE '%unique%' THEN 'unique'
-        WHEN r.unique_id LIKE '%relationships%' THEN 'relationships'
-        WHEN r.unique_id LIKE '%expression_is_true%' THEN 'expression_is_true'
-        WHEN r.unique_id LIKE '%accepted_values%' THEN 'accepted_values'
-        WHEN r.unique_id LIKE 'unit_test.%' THEN 'unit_test'
+        WHEN unique_id LIKE '%not_null%' THEN 'not_null'
+        WHEN unique_id LIKE '%unique%' THEN 'unique'
+        WHEN unique_id LIKE '%relationships%' THEN 'relationships'
+        WHEN unique_id LIKE '%expression_is_true%' THEN 'expression_is_true'
+        WHEN unique_id LIKE '%accepted_values%' THEN 'accepted_values'
         ELSE 'other'
     END as test_type
-FROM read_json_auto('/Users/kent/Dev/InfuseAI/GitHub/jaffle-shop/target/run_results.json') rr,
-     unnest(rr.results) as r
-WHERE r.unique_id LIKE 'test.%' OR r.unique_id LIKE 'unit_test.%'
+FROM jaffle_shop.run_results
+WHERE node_type = 'test'
 ORDER BY test_type, test_name
 ```
 
 ```sql by_type
 SELECT
     test_type,
-    count(*) as total,
-    count(*) FILTER (WHERE status = 'pass') as passing,
-    count(*) FILTER (WHERE status = 'fail') as failing
+    count(test_type) as total,
+    sum(case when status = 'success' then 1 else 0 end) as passing,
+    sum(case when status != 'success' then 1 else 0 end) as failing
 FROM ${tests}
-GROUP BY 1
-ORDER BY 1
+GROUP BY test_type
+ORDER BY test_type
 ```
 
 ## Coverage by Test Type

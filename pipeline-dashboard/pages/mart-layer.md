@@ -7,13 +7,13 @@ title: Mart Layer
 Denormalized analytics tables built from staging models.
 
 ```sql mart_row_counts
-SELECT 'customers' as model, count(*) as rows FROM jaffle_shop.prod.customers
-UNION ALL SELECT 'orders', count(*) FROM jaffle_shop.prod.orders
-UNION ALL SELECT 'order_items', count(*) FROM jaffle_shop.prod.order_items
-UNION ALL SELECT 'products', count(*) FROM jaffle_shop.prod.products
-UNION ALL SELECT 'locations', count(*) FROM jaffle_shop.prod.locations
-UNION ALL SELECT 'supplies', count(*) FROM jaffle_shop.prod.supplies
-UNION ALL SELECT 'metricflow_time_spine', count(*) FROM jaffle_shop.prod.metricflow_time_spine
+SELECT 'customers' as model, count(*) as rows FROM jaffle_shop.customers
+UNION ALL SELECT 'orders', count(*) FROM jaffle_shop.orders
+UNION ALL SELECT 'order_items', count(*) FROM jaffle_shop.order_items
+UNION ALL SELECT 'products', count(*) FROM jaffle_shop.products
+UNION ALL SELECT 'locations', count(*) FROM jaffle_shop.locations
+UNION ALL SELECT 'supplies', count(*) FROM jaffle_shop.supplies
+UNION ALL SELECT 'metricflow_time_spine', count(*) FROM jaffle_shop.metricflow_time_spine
 ORDER BY rows DESC
 ```
 

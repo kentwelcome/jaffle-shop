@@ -13,7 +13,7 @@ SELECT
     MAX(ordered_at)::DATE as latest_date,
     CURRENT_DATE - MAX(ordered_at)::DATE as days_since_latest,
     CASE WHEN MAX(ordered_at)::DATE < CURRENT_DATE - INTERVAL '90 days' THEN 'Stale' ELSE 'Fresh' END as status
-FROM jaffle_shop.raw.raw_orders
+FROM jaffle_shop.raw_orders
 UNION ALL
 SELECT 'raw_customers', 'N/A (static seed)', NULL, NULL, 'Static seed'
 UNION ALL
@@ -23,7 +23,7 @@ SELECT
     MAX(opened_at)::DATE,
     CURRENT_DATE - MAX(opened_at)::DATE,
     CASE WHEN MAX(opened_at)::DATE < CURRENT_DATE - INTERVAL '90 days' THEN 'Stale' ELSE 'Fresh' END
-FROM jaffle_shop.raw.raw_stores
+FROM jaffle_shop.raw_stores
 UNION ALL
 SELECT 'raw_items', 'N/A (linked to orders)', NULL, NULL, 'Linked to orders'
 ORDER BY source_table

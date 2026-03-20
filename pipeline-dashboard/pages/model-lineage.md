@@ -82,12 +82,12 @@ graph LR
 > This is the v1 static Mermaid DAG. Interactive features (layer filter tabs, click-to-detail panels, parameterized drill-down pages) are planned for a future iteration.
 
 ```sql row_counts
-SELECT 'customers' as model, count(*) as rows FROM jaffle_shop.prod.customers
-UNION ALL SELECT 'orders', count(*) FROM jaffle_shop.prod.orders
-UNION ALL SELECT 'order_items', count(*) FROM jaffle_shop.prod.order_items
-UNION ALL SELECT 'products', count(*) FROM jaffle_shop.prod.products
-UNION ALL SELECT 'locations', count(*) FROM jaffle_shop.prod.locations
-UNION ALL SELECT 'supplies', count(*) FROM jaffle_shop.prod.supplies
+SELECT 'customers' as model, count(*) as rows FROM jaffle_shop.customers
+UNION ALL SELECT 'orders', count(*) FROM jaffle_shop.orders
+UNION ALL SELECT 'order_items', count(*) FROM jaffle_shop.order_items
+UNION ALL SELECT 'products', count(*) FROM jaffle_shop.products
+UNION ALL SELECT 'locations', count(*) FROM jaffle_shop.locations
+UNION ALL SELECT 'supplies', count(*) FROM jaffle_shop.supplies
 ORDER BY rows DESC
 ```
 
