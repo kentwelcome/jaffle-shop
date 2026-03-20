@@ -4,7 +4,12 @@ title: Data Freshness
 
 # Data Freshness
 
-Latest record dates per source table.
+Shows the most recent record date in each raw source table. If a source shows **Stale**, the data hasn't been updated in over 90 days — check the ingestion pipeline or upstream data provider.
+
+- **Fresh** — Latest record is within the last 90 days
+- **Stale** — Latest record is older than 90 days, needs investigation
+- **Static seed** — Data loaded from CSV seed files, not expected to change
+- **Linked to orders** — No independent date column, freshness follows raw_orders
 
 ```sql freshness
 SELECT

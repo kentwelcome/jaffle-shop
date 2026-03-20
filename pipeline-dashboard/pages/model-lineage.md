@@ -4,12 +4,12 @@ title: Model Lineage
 
 # Model Lineage
 
-Data flow from raw sources through staging to mart models.
+How data flows through the pipeline. Each row shows a raw source, its staging view, and the final mart table. Use this to trace where data comes from when debugging issues — if `orders` looks wrong, check `stg_orders`, then `raw_orders`.
 
 **Pipeline flow:** Raw Sources → Staging Views → Mart Tables
 
-| Sources | Staging | Marts |
-|---------|---------|-------|
+| Raw Source | Staging View | Mart Table |
+|-----------|-------------|------------|
 | raw_customers | stg_customers | customers |
 | raw_orders | stg_orders | orders |
 | raw_items | stg_order_items | order_items |

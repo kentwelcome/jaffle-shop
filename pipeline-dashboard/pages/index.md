@@ -4,7 +4,7 @@ title: Pipeline Health Dashboard
 
 # Pipeline Health Dashboard
 
-Real-time pipeline monitoring from dbt artifacts and DuckDB.
+At-a-glance overview of the Jaffle Shop dbt pipeline. Check here first after each `dbt build` to confirm everything looks normal — if total rows drop or a model disappears, something needs attention.
 
 ```sql row_counts
 SELECT 'customers' as model, count(1) as rows FROM jaffle_shop.customers
@@ -27,6 +27,8 @@ SELECT sum(rows) as total FROM ${row_counts}
 <BigValue data={[{value: row_counts.length}]} value="value" title="Models" />
 
 ## Row Counts by Model
+
+Compare bar sizes to spot unexpected changes. A sudden drop usually means a broken model or missing source data.
 
 <BarChart
   data={row_counts}

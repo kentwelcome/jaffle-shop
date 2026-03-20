@@ -4,7 +4,7 @@ title: Column Stats
 
 # Column Stats
 
-Column-level profiling for mart models.
+Schema reference for key mart models — column names and data types. Use this to quickly check what columns are available when writing queries, or to verify schema changes after a dbt migration.
 
 ```sql orders_cols
 SELECT column_name, data_type as column_type

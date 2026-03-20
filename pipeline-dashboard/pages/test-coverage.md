@@ -4,7 +4,13 @@ title: Test Coverage
 
 # Test Coverage
 
-Test results matrix from the latest `dbt build`.
+All dbt tests from the latest build, grouped by type. Use this to understand how well our models are tested and spot any failing tests.
+
+- **not_null** — Column must not have NULL values
+- **unique** — Column values must be unique
+- **relationships** — Foreign key references must exist in the parent table
+- **accepted_values** — Column values must be within an allowed set
+- **expression_is_true** — Custom SQL expression must evaluate to true
 
 ```sql tests
 SELECT
@@ -37,6 +43,8 @@ ORDER BY test_type
 ```
 
 ## Coverage by Test Type
+
+Green = passing, Red = failing. If any red appears, scroll down to find the specific failing test.
 
 <BarChart
   data={by_type}
