@@ -1,0 +1,1 @@
+[{"name":"location_id","evidenceType":"string","typeFidelity":"precise"},{"name":"location_name","evidenceType":"string","typeFidelity":"precise"},{"name":"tax_rate","evidenceType":"number","typeFidelity":"precise"},{"name":"opened_date","evidenceType":"date","typeFidelity":"precise"}]

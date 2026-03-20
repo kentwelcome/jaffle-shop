@@ -1,0 +1,1 @@
+[{"name":"id","evidenceType":"string","typeFidelity":"precise"},{"name":"name","evidenceType":"string","typeFidelity":"precise"},{"name":"opened_at","evidenceType":"date","typeFidelity":"precise"},{"name":"tax_rate","evidenceType":"number","typeFidelity":"precise"}]
