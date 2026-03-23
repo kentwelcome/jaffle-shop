@@ -1,9 +1,11 @@
+import os
+
 import duckdb
 import pandas as pd
 import streamlit as st
 from pathlib import Path
 
-DB_PATH = str(Path(__file__).parent.parent / "data" / "jaffle_shop.duckdb")
+DB_PATH = os.environ.get("JAFFLE_SHOP_DB_PATH", str(Path(__file__).parent.parent / "data" / "jaffel-shop.duckdb"))
 
 
 @st.cache_resource
