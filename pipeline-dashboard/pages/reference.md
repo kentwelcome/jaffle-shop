@@ -2,6 +2,10 @@
 title: Reference
 ---
 
+<style>
+  :global(.over-container) { display: none !important; }
+</style>
+
 Pipeline structure, performance, and schema. For onboarding and debugging — not a daily page.
 
 ```sql run_results

@@ -2,7 +2,9 @@
 title: Pipeline Status
 ---
 
-Check here after each `dbt build`. If the banner is green, you're good. If it's red, check the failures below.
+<style>
+  :global(.over-container) { display: none !important; }
+</style>
 
 ```sql run_results
 SELECT unique_id, status, execution_time, node_type, name
@@ -66,12 +68,12 @@ WHERE status != 'success'
 </Alert>
 {/if}
 
-## Build Stats
-
 <BigValue data={model_count} value="cnt" title="Models Run" />
 <BigValue data={test_passed} value="cnt" title="Tests Passed" />
 <BigValue data={build_duration} value="seconds" title="Duration (s)" />
 <BigValue data={stale_count} value="cnt" title="Stale Sources" />
+
+Check here after each `dbt build`. If the banner is green, you're good. If it's red, check the failures below.
 
 ## Failures
 

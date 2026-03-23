@@ -2,6 +2,10 @@
 title: Data Quality
 ---
 
+<style>
+  :global(.over-container) { display: none !important; }
+</style>
+
 Test health and data consistency across pipeline layers. Check here when investigating issues or during weekly review.
 
 ```sql tests
