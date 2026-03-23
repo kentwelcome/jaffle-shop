@@ -22,7 +22,7 @@ jobs:
       - name: Install uv
         run: python3 -m pip install uv
       - name: Install dbt
-        run: uv pip install dbt-core dbt-duckdb --system
+        run: uv pip install dbt-core dbt-duckdb duckdb==1.4.4 --system
       - name: Install dbt packages
         run: dbt deps
       - name: Run dbt models

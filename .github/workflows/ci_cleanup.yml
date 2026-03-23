@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install duckdb
-        run: pip install duckdb
+        run: pip install duckdb==1.4.4
       - name: Drop PR schema
         run: |
           python3 -c "
