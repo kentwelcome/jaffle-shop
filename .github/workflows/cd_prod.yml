@@ -46,7 +46,7 @@ jobs:
       - name: Install dbt packages
         run: dbt deps
       - name: Seed source data
-        run: dbt seed --vars '{load_source_data: true}'
+        run: "dbt seed --vars '{load_source_data: true}'"
 
   deploy:
     name: Run
