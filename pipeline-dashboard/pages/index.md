@@ -3,8 +3,9 @@ title: Pipeline Status
 ---
 
 <style>
-  :global(.over-container) { display: none !important; }
+  :global(.over-container) { display: none; }
 </style>
+
 
 ```sql run_results
 SELECT unique_id, status, execution_time, node_type, name
