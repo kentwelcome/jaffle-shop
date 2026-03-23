@@ -1,4 +1,0 @@
-name: jaffle_shop
-type: duckdb
-options:
-  filename: ${JAFFLE_SHOP_DB_PATH}

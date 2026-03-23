@@ -1,6 +1,7 @@
 plugins:
   datasources:
     "@evidence-dev/duckdb": {}
+    "@evidence-dev/motherduck": {}
   components:
     "@evidence-dev/core-components": {}
 deployment:

@@ -35,10 +35,17 @@ pipeline-install: ## Install pipeline dashboard dependencies
 	cd pipeline-dashboard && pnpm install
 
 pipeline-connection: ## Generate Evidence.dev connection config from env
-	@echo "name: jaffle_shop" > pipeline-dashboard/sources/jaffle_shop/connection.yaml
-	@echo "type: duckdb" >> pipeline-dashboard/sources/jaffle_shop/connection.yaml
-	@echo "options:" >> pipeline-dashboard/sources/jaffle_shop/connection.yaml
-	@echo "  filename: $(JAFFLE_SHOP_DB_PATH)" >> pipeline-dashboard/sources/jaffle_shop/connection.yaml
+	@if echo "$(JAFFLE_SHOP_DB_PATH)" | grep -q '^md:'; then \
+		echo "name: jaffle_shop" > pipeline-dashboard/sources/jaffle_shop/connection.yaml; \
+		echo "type: motherduck" >> pipeline-dashboard/sources/jaffle_shop/connection.yaml; \
+		echo "options:" >> pipeline-dashboard/sources/jaffle_shop/connection.yaml; \
+		echo "  database: $(JAFFLE_SHOP_DB_PATH)" >> pipeline-dashboard/sources/jaffle_shop/connection.yaml; \
+	else \
+		echo "name: jaffle_shop" > pipeline-dashboard/sources/jaffle_shop/connection.yaml; \
+		echo "type: duckdb" >> pipeline-dashboard/sources/jaffle_shop/connection.yaml; \
+		echo "options:" >> pipeline-dashboard/sources/jaffle_shop/connection.yaml; \
+		echo "  filename: $(JAFFLE_SHOP_DB_PATH)" >> pipeline-dashboard/sources/jaffle_shop/connection.yaml; \
+	fi
 
 pipeline-sources: pipeline-connection ## Extract source data from DuckDB for pipeline dashboard
 	cd pipeline-dashboard && pnpm exec evidence sources
