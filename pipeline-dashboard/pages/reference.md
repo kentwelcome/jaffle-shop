@@ -2,8 +2,6 @@
 title: Reference
 ---
 
-# Reference
-
 Pipeline structure, performance, and schema. For onboarding and debugging — not a daily page.
 
 ```sql run_results

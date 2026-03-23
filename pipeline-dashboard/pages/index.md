@@ -2,8 +2,6 @@
 title: Pipeline Status
 ---
 
-# Pipeline Status
-
 Check here after each `dbt build`. If the banner is green, you're good. If it's red, check the failures below.
 
 ```sql run_results

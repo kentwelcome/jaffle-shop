@@ -2,8 +2,6 @@
 title: Data Quality
 ---
 
-# Data Quality
-
 Test health and data consistency across pipeline layers. Check here when investigating issues or during weekly review.
 
 ```sql tests
