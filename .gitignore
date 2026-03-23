@@ -17,3 +17,8 @@ package-lock.json
 
 .ruff_cache
 __pycache__
+
+data/
+.superpowers/
+pipeline-dashboard/build
+.coverage
