@@ -11,6 +11,7 @@ logs/
 node_modules/
 package-lock.json
 .evidence/
+pipeline-dashboard/sources/jaffle_shop/connection.yaml
 
 .user.yml
 
