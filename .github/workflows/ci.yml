@@ -4,6 +4,17 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - "models/**"
+      - "macros/**"
+      - "seeds/**"
+      - "data-tests/**"
+      - "analyses/**"
+      - "snapshots/**"
+      - "dbt_project.yml"
+      - "packages.yml"
+      - "package-lock.yml"
+      - "profiles.yml"
 
 jobs:
   build:
