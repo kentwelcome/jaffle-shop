@@ -53,6 +53,7 @@ jobs:
     needs: [seed]
     if: always() && !failure()
     runs-on: ubuntu-latest
+    environment: production
 
     env:
       JAFFLE_SHOP_DB_PATH: ${{ secrets.JAFFLE_SHOP_DB_PATH }}
