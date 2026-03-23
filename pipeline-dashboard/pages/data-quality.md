@@ -1,70 +1,17 @@
 ---
 title: Data Quality
+queries:
+  - tests.sql
+  - tests_by_type.sql
+  - failing_tests.sql
+  - row_comparison.sql
 ---
 
 <style>
-  :global(.over-container) { display: none !important; }
+  :global(.over-container) { display: none; }
 </style>
 
 Test health and data consistency across pipeline layers. Check here when investigating issues or during weekly review.
-
-```sql tests
-SELECT
-    unique_id,
-    status,
-    execution_time,
-    name as test_name,
-    CASE
-        WHEN unique_id LIKE '%not_null%' THEN 'not_null'
-        WHEN unique_id LIKE '%unique%' THEN 'unique'
-        WHEN unique_id LIKE '%relationships%' THEN 'relationships'
-        WHEN unique_id LIKE '%expression_is_true%' THEN 'expression_is_true'
-        WHEN unique_id LIKE '%accepted_values%' THEN 'accepted_values'
-        ELSE 'other'
-    END as test_type
-FROM jaffle_shop.run_results
-WHERE node_type = 'test'
-ORDER BY test_type, test_name
-```
-
-```sql by_type
-SELECT
-    test_type,
-    count(test_type) as total,
-    sum(case when status = 'success' then 1 else 0 end) as passing,
-    sum(case when status != 'success' then 1 else 0 end) as failing
-FROM ${tests}
-GROUP BY test_type
-ORDER BY test_type
-```
-
-```sql failing_tests
-SELECT test_name, test_type, status
-FROM ${tests}
-WHERE status != 'success'
-```
-
-```sql row_comparison
-SELECT 'customers' as model,
-    (SELECT count(1) FROM jaffle_shop.stg_customers) as staging_rows,
-    (SELECT count(1) FROM jaffle_shop.customers) as mart_rows
-UNION ALL SELECT 'orders',
-    (SELECT count(1) FROM jaffle_shop.stg_orders),
-    (SELECT count(1) FROM jaffle_shop.orders)
-UNION ALL SELECT 'order_items',
-    (SELECT count(1) FROM jaffle_shop.stg_order_items),
-    (SELECT count(1) FROM jaffle_shop.order_items)
-UNION ALL SELECT 'products',
-    (SELECT count(1) FROM jaffle_shop.stg_products),
-    (SELECT count(1) FROM jaffle_shop.products)
-UNION ALL SELECT 'locations',
-    (SELECT count(1) FROM jaffle_shop.stg_locations),
-    (SELECT count(1) FROM jaffle_shop.locations)
-UNION ALL SELECT 'supplies',
-    (SELECT count(1) FROM jaffle_shop.stg_supplies),
-    (SELECT count(1) FROM jaffle_shop.supplies)
-ORDER BY model
-```
 
 ## Test Results by Type
 
@@ -77,7 +24,7 @@ Green = passing, red = failing. All bars should be green.
 - **expression_is_true** — custom SQL expression must evaluate to true
 
 <BarChart
-  data={by_type}
+  data={tests_by_type}
   x="test_type"
   y={["passing", "failing"]}
   type="stacked"

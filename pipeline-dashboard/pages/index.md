@@ -1,63 +1,20 @@
 ---
 title: Pipeline Status
+queries:
+  - run_results.sql
+  - failure_count.sql
+  - model_count.sql
+  - test_passed.sql
+  - build_duration.sql
+  - freshness.sql
+  - stale_sources.sql
+  - stale_count.sql
+  - failures.sql
 ---
 
 <style>
   :global(.over-container) { display: none; }
 </style>
-
-
-```sql run_results
-SELECT unique_id, status, execution_time, node_type, name
-FROM jaffle_shop.run_results
-```
-
-```sql failure_count
-SELECT count(1) as cnt FROM ${run_results} WHERE status != 'success'
-```
-
-```sql model_count
-SELECT count(1) as cnt FROM ${run_results} WHERE node_type = 'model'
-```
-
-```sql test_passed
-SELECT count(1) as cnt FROM ${run_results} WHERE node_type = 'test' AND status = 'success'
-```
-
-```sql build_duration
-SELECT round(sum(execution_time), 1) as seconds FROM ${run_results}
-```
-
-```sql freshness
-SELECT
-    'raw_orders' as source_table,
-    MAX(ordered_at)::DATE as latest_date,
-    CURRENT_DATE - MAX(ordered_at)::DATE as days_since
-FROM jaffle_shop.raw_orders
-UNION ALL
-SELECT
-    'raw_stores',
-    MAX(opened_at)::DATE,
-    CURRENT_DATE - MAX(opened_at)::DATE
-FROM jaffle_shop.raw_stores
-ORDER BY source_table
-```
-
-```sql stale_sources
-SELECT source_table, latest_date, days_since
-FROM ${freshness}
-WHERE days_since > 90
-```
-
-```sql stale_count
-SELECT count(1) as cnt FROM ${stale_sources}
-```
-
-```sql failures
-SELECT name, node_type, status
-FROM ${run_results}
-WHERE status != 'success'
-```
 
 {#if failure_count[0].cnt > 0}
 <Alert status="negative">

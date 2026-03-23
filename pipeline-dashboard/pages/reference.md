@@ -1,45 +1,18 @@
 ---
 title: Reference
+queries:
+  - run_results.sql
+  - slow_models.sql
+  - orders_cols.sql
+  - customers_cols.sql
+  - order_items_cols.sql
 ---
 
 <style>
-  :global(.over-container) { display: none !important; }
+  :global(.over-container) { display: none; }
 </style>
 
 Pipeline structure, performance, and schema. For onboarding and debugging — not a daily page.
-
-```sql run_results
-SELECT unique_id, status, execution_time, node_type, name
-FROM jaffle_shop.run_results
-```
-
-```sql slow_models
-SELECT name, node_type, execution_time
-FROM ${run_results}
-ORDER BY execution_time DESC
-LIMIT 5
-```
-
-```sql orders_cols
-SELECT column_name, data_type as column_type
-FROM information_schema.columns
-WHERE table_name = 'orders'
-ORDER BY ordinal_position
-```
-
-```sql customers_cols
-SELECT column_name, data_type as column_type
-FROM information_schema.columns
-WHERE table_name = 'customers'
-ORDER BY ordinal_position
-```
-
-```sql order_items_cols
-SELECT column_name, data_type as column_type
-FROM information_schema.columns
-WHERE table_name = 'order_items'
-ORDER BY ordinal_position
-```
 
 ## Model Lineage
 
