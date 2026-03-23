@@ -1,4 +1,4 @@
-name: Deploy Prod to MotherDuck
+name: dbt - Deploy Prod
 
 on:
   push:

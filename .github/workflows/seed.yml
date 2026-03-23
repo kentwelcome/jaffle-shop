@@ -1,4 +1,4 @@
-name: Seed Source Data to MotherDuck
+name: dbt - Seed
 
 on:
   push:

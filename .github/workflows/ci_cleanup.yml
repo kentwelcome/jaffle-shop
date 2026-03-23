@@ -1,4 +1,4 @@
-name: CI Cleanup
+name: dbt - CI Cleanup
 
 on:
   pull_request:
