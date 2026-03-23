@@ -1,6 +1,6 @@
 export JAFFLE_SHOP_DB_PATH ?= $(CURDIR)/data/jaffel-shop.duckdb
 
-.PHONY: help prepare dashboard pipeline-dashboard pipeline-build pipeline-deploy dashboard-install pipeline-install pipeline-sources seed seed-prod run run-prod
+.PHONY: help prepare dashboard pipeline-dashboard pipeline-build pipeline-deploy dashboard-install pipeline-install pipeline-sources seed run run-prod
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-24s\033[0m %s\n", $$1, $$2}'
@@ -12,11 +12,8 @@ prepare: ## Ensure data directory exists
 
 # --- dbt Pipeline ---
 
-seed: prepare ## Seed source data to dev
-	dbt seed --target dev --vars '{load_source_data: true}'
-
-seed-prod: prepare ## Seed source data to prod
-	dbt seed --target prod --vars '{load_source_data: true}'
+seed: prepare ## Seed source data to raw schema
+	dbt seed --vars '{load_source_data: true}'
 
 run: ## Run dbt models in dev and generate docs
 	dbt run --target dev && dbt docs generate --target dev

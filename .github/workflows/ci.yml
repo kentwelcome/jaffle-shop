@@ -1,22 +1,19 @@
-name: dbt Cloud CI
+name: CI
+
 on:
   pull_request:
     branches:
       - main
-      - staging
+
 jobs:
-  run_snowflake:
-    name: dbt Cloud PR CI Snowflake
-    runs-on: macos-latest
+  build:
+    name: dbt Build & Test on MotherDuck
+    runs-on: ubuntu-latest
 
     env:
-      DBT_ACCOUNT_ID: 188483
-      DBT_PROJECT_ID: 283328
-      DBT_PR_JOB_ID: 552843
-      DBT_API_KEY: ${{ secrets.DBT_CLOUD_API_KEY }}
-      DBT_JOB_CAUSE: "GitHub Actions Request"
-      DBT_JOB_BRANCH: ${{ github.head_ref }}
-      DBT_JOB_SCHEMA_OVERRIDE: dbt_jsdx__pr_${{ github.head_ref}}
+      JAFFLE_SHOP_DB_PATH: ${{ secrets.JAFFLE_SHOP_DB_PATH }}
+      MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
+      DBT_SCHEMA: pr-${{ github.event.pull_request.number }}
 
     steps:
       - uses: "actions/checkout@v4"
@@ -25,57 +22,17 @@ jobs:
           python-version: "3.12"
       - name: Install uv
         run: python3 -m pip install uv
-      - name: Install deps
-        run: uv pip install -r requirements.txt --system
-      - name: Run dbt Cloud job
-        run: python3 .github/workflows/scripts/dbt_cloud_run_job.py
-
-  run_bigquery:
-    name: dbt Cloud PR CI BigQuery
-    runs-on: macos-latest
-
-    env:
-      DBT_ACCOUNT_ID: 188483
-      DBT_PROJECT_ID: 275557
-      DBT_PR_JOB_ID: 561096
-      DBT_API_KEY: ${{ secrets.DBT_CLOUD_API_KEY }}
-      DBT_JOB_CAUSE: "GitHub Actions Request"
-      DBT_JOB_BRANCH: ${{ github.head_ref }}
-      DBT_JOB_SCHEMA_OVERRIDE: dbt_jsdx__pr_${{ github.head_ref}}
-
-    steps:
-      - uses: "actions/checkout@v4"
-      - uses: "actions/setup-python@v5"
+      - name: Install dbt
+        run: uv pip install dbt-core dbt-duckdb --system
+      - name: Install dbt packages
+        run: dbt deps
+      - name: Run dbt models
+        run: dbt run --target dev
+      - name: Run dbt tests
+        run: dbt test --target dev
+      - name: Upload dbt artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
         with:
-          python-version: "3.12"
-      - name: Install uv
-        run: python3 -m pip install uv
-      - name: Install deps
-        run: uv pip install -r requirements.txt --system
-      - name: Run dbt Cloud job
-        run: python3 .github/workflows/scripts/dbt_cloud_run_job.py
-
-  run_postgres:
-    name: dbt Cloud PR CI Postgres
-    runs-on: macos-latest
-
-    env:
-      DBT_ACCOUNT_ID: 188483
-      DBT_PROJECT_ID: 288405
-      DBT_PR_JOB_ID: 577887
-      DBT_API_KEY: ${{ secrets.DBT_CLOUD_API_KEY }}
-      DBT_JOB_CAUSE: "GitHub Actions Request"
-      DBT_JOB_BRANCH: ${{ github.head_ref }}
-      DBT_JOB_SCHEMA_OVERRIDE: dbt_jsdx__pr_${{ github.head_ref}}
-
-    steps:
-      - uses: "actions/checkout@v4"
-      - uses: "actions/setup-python@v5"
-        with:
-          python-version: "3.12"
-      - name: Install uv
-        run: python3 -m pip install uv
-      - name: Install deps
-        run: uv pip install -r requirements.txt --system
-      - name: Run dbt Cloud job
-        run: python3 .github/workflows/scripts/dbt_cloud_run_job.py
+          name: dbt-target
+          path: target/

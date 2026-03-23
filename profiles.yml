@@ -1,0 +1,13 @@
+default:
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('JAFFLE_SHOP_DB_PATH', 'data/jaffel-shop.duckdb') }}"
+      threads: 24
+      schema: "{{ env_var('DBT_SCHEMA', 'dev') }}"
+    prod:
+      type: duckdb
+      path: "{{ env_var('JAFFLE_SHOP_DB_PATH', 'data/jaffel-shop.duckdb') }}"
+      threads: 24
+      schema: prod
+  target: dev

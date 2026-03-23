@@ -1,0 +1,30 @@
+name: CI Cleanup
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  cleanup:
+    name: Drop PR schema from MotherDuck
+    runs-on: ubuntu-latest
+
+    env:
+      MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
+
+    steps:
+      - uses: "actions/setup-python@v5"
+        with:
+          python-version: "3.12"
+      - name: Install duckdb
+        run: pip install duckdb
+      - name: Drop PR schema
+        run: |
+          python3 -c "
+          import duckdb
+          con = duckdb.connect('${{ secrets.JAFFLE_SHOP_DB_PATH }}')
+          con.execute('DROP SCHEMA IF EXISTS \"pr-${{ github.event.pull_request.number }}\" CASCADE')
+          con.close()
+          "

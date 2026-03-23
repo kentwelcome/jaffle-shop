@@ -1,13 +1,15 @@
-name: Deploy Prod to MotherDuck
+name: Seed Source Data to MotherDuck
 
 on:
   push:
     branches:
       - main
+    paths:
+      - "seeds/**"
 
 jobs:
-  deploy:
-    name: dbt Run on MotherDuck (Prod)
+  seed:
+    name: dbt Seed on MotherDuck
     runs-on: ubuntu-latest
 
     env:
@@ -25,13 +27,5 @@ jobs:
         run: uv pip install dbt-core dbt-duckdb --system
       - name: Install dbt packages
         run: dbt deps
-      - name: Run dbt models
-        run: dbt run --target prod
-      - name: Generate docs
-        run: dbt docs generate --target prod
-      - name: Upload dbt artifacts
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: dbt-target
-          path: target/
+      - name: Seed source data
+        run: dbt seed --vars '{load_source_data: true}'
